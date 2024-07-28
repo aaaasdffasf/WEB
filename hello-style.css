@@ -1,0 +1,14 @@
+h1 {
+	color:orange;
+	background-color:black;
+}
+
+p{
+	color:blue;
+	background:white;
+}
+
+body {
+	background-color:pink;
+	font-family: 바탕체;
+}
