@@ -3,6 +3,15 @@
 <head> <!--body태그에 필요한 css와 script 제공-->
  
   <title>Document</title><!--웹브라우저 제목 지정-->
+  <style>
+    div{
+      height: 100vh;
+    }
+
+    div[name=n1] {background-color: yellow;}
+    div[name=n3] {background-color: yellow;}
+    div[name=n2] {background-color: brown;}
+  </style>
 </head>
 <body>
   <h1>홍차</h1>
@@ -30,6 +39,17 @@
 
   <a href="https://www.naver.com">네이버</a>
   <a href="https://www.google.com">구글</a>
+  <a href="hello.html">헬로</a>
+
+  <a href="#n1" id="link-n1">N1</a>
+  <a href="#n2" id="link-n2">N2</a>
+  <a href="#n3" id="link-n3">N3</a>
+  <a href="#n4" id="link-n4">N4</a>
+
+  <div name="n1" id="n1">N1</div>
+  <div name="n2" id="n2">N2</div>
+  <div name="n3" id="n3">N3</div>
+  <div name="n4" id="n4">N4</div>
   <!--사용자에게 보이는 부분-->
 </body>
 </html>
