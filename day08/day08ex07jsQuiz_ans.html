@@ -19,19 +19,32 @@
     var sicStr = "";
     var total = 0;
     
+    // 초기값 
     // 문제 다음 while문으로 구현된 피보나치 수열 예제를
-    // for문으로 변경.
-    for(var p=0,c=1,n=0; c <= 21; n=p+c,p=c,c=n) {
-	    sicStr += c;
-        total += c;
-	    sicStr += (c<21)?"+":"="; // 삼항연산(논리연산)
+    // for문으로 변경 하세요.
+    var prev = 0;
+    var cur = 1;
+    var next = 0
+    while(cur <= 21) {
+	    sicStr += cur;
+        total += cur;
+	    if(cur < 21) {
+		    sicStr += "+";
+	    } else {
+		    sicStr += "=";
+	    }
+
+	    // 증감식
+	    next = prev + cur;
+	    prev = cur;
+	    cur = next;
     }
     
-    console.log(sicStr + total);
-    document.write(sicStr + total);
+    console.log(sicStr+total);
+    
     
     // 출력 된 피보나치 수열의 합을 결과로 출력
-    // 결과 = 54
+    // 결과 =54
   </script>
 </body>
 </html>
