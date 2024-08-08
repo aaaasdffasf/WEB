@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="text"], button {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #add8e6; /* 연한 파란색 */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px; /* 동그란 모양 */
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #87ceeb; /* 조금 더 짙은 파란색 */
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+    <script>
+        var todoList = JSON.parse(localStorage.getItem('todoList')) || [];
+        var seqCnt = localStorage.getItem('seqCnt') || 1;
+
+        function saveToLocalStorage() {
+            localStorage.setItem('todoList', JSON.stringify(todoList));
+            localStorage.setItem('seqCnt', seqCnt);
+        }
+
+        function drawList() {
+            var demo = document.querySelector('#demo');
+            demo.innerHTML = "";
+            todoList.sort((a, b) => a.seq - b.seq); // 순서대로 정렬
+            todoList.forEach(function(todo, index) {
+                demo.innerHTML += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${todo.title}</td>
+                    <td><button onclick="editItem(${todo.seq})">수정</button></td>
+                    <td><button onclick="deleteItem(${todo.seq})">삭제</button></td>
+                </tr>`;
+            });
+        }
+
+        function addItem() {
+            var memoTxt = document.getElementById('memoTxt').value.trim();
+            if (memoTxt) {
+                todoList.push({seq: seqCnt++, title: memoTxt, done: false});
+                saveToLocalStorage();
+                drawList();
+                document.getElementById('memoTxt').value = "";
+            }
+        }
+
+        function editItem(seq) {
+            var newTitle = prompt("새 제목을 입력하세요:");
+            if (newTitle) {
+                var idx = todoList.findIndex(todo => todo.seq == seq);
+                if (idx !== -1) {
+                    todoList[idx].title = newTitle;
+                    saveToLocalStorage();
+                    drawList();
+                }
+            }
+        }
+
+        function deleteItem(seq) {
+            todoList = todoList.filter(todo => todo.seq != seq);
+            saveToLocalStorage();
+            drawList();
+        }
+
+        window.onload = function() {
+            drawList();
+            document.getElementById('clickBtn').addEventListener('click', addItem);
+            document.getElementById('memoTxt').addEventListener('keyup', function(event) {
+                if (event.key === "Enter") addItem();
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <input type="text" id="memoTxt" placeholder="할 일을 입력하세요">
+        <button id="clickBtn">추가</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>할일</th>
+                    <th>수정</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody id="demo"></tbody>
+        </table>
+    </div>
+</body>
+</html>
